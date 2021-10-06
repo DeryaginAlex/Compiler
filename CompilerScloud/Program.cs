@@ -7,22 +7,22 @@ using System.IO;
 namespace CompilerScloud {
     class Program {
         static void Main(string[] args) {
-            string[] FileName = File.ReadAllLines("input.txt");
+            string[] fileName = File.ReadAllLines("input.txt");
            
             TheNumberOfPartsOfTheFile num = new TheNumberOfPartsOfTheFile();
-            Console.WriteLine(num.GetNum(FileName));
+            Console.WriteLine(num.GetNum(fileName));
 
-            string[,] Parts= new string[4, 4];
+            string[,] parts= new string[4, 4];
             int j = 0;
             
             int i = 0;
-            for(int count = 0 ; count < FileName.Length ; count++) {
+            for(int count = 0 ; count < fileName.Length ; count++) {
                
-                if(FileName[count] == "") {
+                if(fileName[count] == "") {
                     j = 0;
                     i++;    
                 } else {
-                    Parts[i,j] = FileName[count];
+                    parts[i,j] = fileName[count];
                     j++;
                 }
 
@@ -33,36 +33,33 @@ namespace CompilerScloud {
 
 
             //HeaderCheck
-            string Heading = Parts[0, 0];
-            string FirstCharacter = Heading.Substring(0,1);
-            string LastCharacter = Heading.Substring( Heading.Length-1, 1);
+            string heading = parts[0, 0];
+            string firstCharacter = heading.Substring(0,1);
+            string lastCharacter = heading.Substring( heading.Length-1, 1);
 
-            char[] Separators = new char[] { '[', ']' };
-            string[] BasicCharacters = Heading.Split(Separators, StringSplitOptions.RemoveEmptyEntries);
+            char[] separators = new char[] { '[', ']' };
+            string[] basicCharacters = heading.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
 
-            if(FirstCharacter != "[" || LastCharacter != "]" || BasicCharacters[0] == "") {
+            if(firstCharacter != "[" || lastCharacter != "]" || basicCharacters[0] == "") {
                 Console.WriteLine("Ошибка №1, Неправильно сформирован заголовок");
             }
 
 
             //CheckRequiredParameterConnect
-            string ParameterConnect = Parts[0, 2];
-            string ThisIsConnect = ParameterConnect.Substring(0, 7);
-            if(ThisIsConnect== "Connect") {
-                Console.WriteLine("Строка\n"+ ParameterConnect + "\nСодержит обязательный параметр Connect") ;
+            string parameterConnect = parts[0, 2];
+            string thisIsConnect = parameterConnect.Substring(0, 7);
+            if(thisIsConnect== "Connect") {
+                Console.WriteLine("Строка\n"+ parameterConnect + "\nСодержит обязательный параметр Connect") ;
             } else {
-                Console.WriteLine("Строка\n" + ParameterConnect + "\nНЕ содержит обязательный параметр Connect");
+                Console.WriteLine("Строка\n" + parameterConnect + "\nНЕ содержит обязательный параметр Connect");
             }
 
 
             //CheckWay
-            string Way = "C:\\Documents\\Newsletters\\Summer2018.pdf";
-            Console.WriteLine(Way);
+            string way = "C:\\Documents\\Newsletters\\Summer2018.pdf";
+            Console.WriteLine(way);
 
-            if(Way == ) {
-
-            }
 
             Console.ReadKey();
         }
