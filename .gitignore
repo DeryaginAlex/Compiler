@@ -2,8 +2,8 @@
 # Данный GITIGNORE-файл был автоматически создан Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/Compiler/v16/.suo
-/.vs
+.vs/Compiler/v16/.suo
+.vs
 *.suo
 *.user
 

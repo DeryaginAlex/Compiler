@@ -1,65 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace CompilerScloud {
     class Program {
         static void Main(string[] args) {
-            string[] fileName = File.ReadAllLines("input.txt");
-           
-            TheNumberOfPartsOfTheFile num = new TheNumberOfPartsOfTheFile();
-            Console.WriteLine(num.GetNum(fileName));
-
-            string[,] parts= new string[4, 4];
-            int j = 0;
-            
-            int i = 0;
-            for(int count = 0 ; count < fileName.Length ; count++) {
-               
-                if(fileName[count] == "") {
-                    j = 0;
-                    i++;    
-                } else {
-                    parts[i,j] = fileName[count];
-                    j++;
-                }
-
+            string errorFileName = "bad_data.txt";
+            if(args[0] == null) {
+                Console.WriteLine("Путь к файлу не найден. Он должен идти аргументом командной строки.");
+            }
+            string filePath = Path.GetFullPath(args[0]);
+            string[] lines = File.ReadAllLines(filePath);
+            if(lines == null) {
+                Console.WriteLine("Файл пуст");
             }
 
-
-
-
-
-            //HeaderCheck
-            string heading = parts[0, 0];
-            string firstCharacter = heading.Substring(0,1);
-            string lastCharacter = heading.Substring( heading.Length-1, 1);
-
-            char[] separators = new char[] { '[', ']' };
-            string[] basicCharacters = heading.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-
-
-            if(firstCharacter != "[" || lastCharacter != "]" || basicCharacters[0] == "") {
-                Console.WriteLine("Ошибка №1, Неправильно сформирован заголовок");
+            Compiler compiler = new Compiler(lines);
+            List<string> errors = compiler.Validate();
+            StreamWriter errorFile = new StreamWriter(errorFileName); ;
+            if(!File.Exists(errorFileName)) {
+                //если нет файла то создаем его
+            }
+            foreach(var item in errors) {
+                errorFile.WriteLine(item);
             }
 
-
-            //CheckRequiredParameterConnect
-            string parameterConnect = parts[0, 2];
-            string thisIsConnect = parameterConnect.Substring(0, 7);
-            if(thisIsConnect== "Connect") {
-                Console.WriteLine("Строка\n"+ parameterConnect + "\nСодержит обязательный параметр Connect") ;
-            } else {
-                Console.WriteLine("Строка\n" + parameterConnect + "\nНЕ содержит обязательный параметр Connect");
+            MatrixDimensionCalculator length = new MatrixDimensionCalculator();
+            int l = length.GetHeight(lines);
+            string fileNameFormat = "base_{0}.txt";
+            //int length = compiler.GetParts();
+            for(int i = 1 ; i < l ; i++) {
+                string fileName = string.Format(fileNameFormat, i.ToString());
+                //тут сохраняем в файл 
             }
-
-
-            //CheckWay
-            string way = "C:\\Documents\\Newsletters\\Summer2018.pdf";
-            Console.WriteLine(way);
-
 
             Console.ReadKey();
         }

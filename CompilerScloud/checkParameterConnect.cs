@@ -5,9 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CompilerScloud {
-    class HeaderCheck {
-        
+    class CheckRequiredParameterConnect {
 
-
+       
     }
 }
