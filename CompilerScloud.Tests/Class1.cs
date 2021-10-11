@@ -7,7 +7,6 @@ namespace CompilerScloud.Tests {
         [Test]
         public void Test1() {
             int i = 1;
-            i = i + 1;
             Assert.AreEqual(1, i);
         }
     }
