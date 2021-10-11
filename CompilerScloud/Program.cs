@@ -16,7 +16,7 @@ namespace CompilerScloud {
             }
 
             Compiler compiler = new Compiler(lines);
-            List<string> errors = compiler.Validate();
+            List<int> errors = compiler.Validate();
             StreamWriter errorFile = new StreamWriter(errorFileName); ;
             if(!File.Exists(errorFileName)) {
                 //если нет файла то создаем его

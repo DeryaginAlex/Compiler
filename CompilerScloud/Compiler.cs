@@ -8,10 +8,10 @@ namespace CompilerScloud {
             MatrixCreator matrixCreator = new MatrixCreator(lines);
             matrix = matrixCreator.Creating();
         }
-        public List<string> Validate() {
-            List<string> errors = new List<string>();
-            
-            HeadCheck(matrix);
+        public List<int> Validate() {
+            List<int> errors = new List<int>();
+
+            errors.AddRange(HeadCheck(matrix));
             ConnectCheck(matrix);
 
 
