@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace CompilerScloud {
@@ -20,17 +19,12 @@ namespace CompilerScloud {
             Compiler compiler = new Compiler();
             string[] objects = compiler.GetObjects(text);
             
-            StreamWriter errorFile = new StreamWriter(errorFileName); ;
-            if(!File.Exists(errorFileName)) {
-                //если нет файла то создаем его
-            }
-
             for(int i = 0 ; i < objects.Length ; i++) {
                 if(compiler.IsValid(objects[i])) {
                     string fileName = string.Format(fileNameFormat, i.ToString());
-                    //записываем корректные данные
+                    FileHelper.Write(fileName, objects[i]);
                 } else {
-                    //записывваем ошибочные данные 
+                    FileHelper.Write(errorFileName, objects[i]);
                 }
             }                      
             Console.ReadKey();
