@@ -28,8 +28,9 @@ namespace CompilerScloud {
             for(int i = 0 ; i < objects.Length ; i++) {
                 if(compiler.IsValid(objects[i])) {
                     string fileName = string.Format(fileNameFormat, i.ToString());
+                    //записываем корректные данные
                 } else {
-                        
+                    //записывваем ошибочные данные 
                 }
             }                      
             Console.ReadKey();

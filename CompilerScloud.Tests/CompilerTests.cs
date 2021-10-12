@@ -39,5 +39,13 @@ External = 1
             header = "[  ]";
             Assert.IsFalse(compiler.IsHeadValid(header));
         }
+
+        [Test]
+        public void IsParametrValid() {
+            string parament = "External=1";
+            Compiler compiler = new Compiler();
+            Assert.IsTrue(compiler.IsParametrValid(parament));
+
+        }
     }
 }
