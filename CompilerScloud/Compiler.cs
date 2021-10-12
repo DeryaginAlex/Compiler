@@ -77,11 +77,11 @@ namespace CompilerScloud {
             text = text.Remove(0, 1);
             text = text.Remove(text.Length - 2, 2);
             return text;
-        }
+        }                                                                                                           
 
         public bool IsServerValid(string text) {
             bool result = true;
-            string[] items = text.Split(";");
+            string[] items = text.Split(";", StringSplitOptions.RemoveEmptyEntries);
             if(items.Length != 2) {
                 return false;
             }

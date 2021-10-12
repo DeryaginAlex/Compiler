@@ -18,15 +18,21 @@ namespace CompilerScloud {
 
             Compiler compiler = new Compiler();
             string[] objects = compiler.GetObjects(text);
-            
+            string errors = string.Empty;
             for(int i = 0 ; i < objects.Length ; i++) {
                 if(compiler.IsValid(objects[i])) {
                     string fileName = string.Format(fileNameFormat, i.ToString());
                     FileHelper.Write(fileName, objects[i]);
                 } else {
-                    FileHelper.Write(errorFileName, objects[i]);
+                    errors = errors + objects[i] + "\r\n\r\n";
                 }
-            }                      
+            }
+            if(!string.IsNullOrWhiteSpace(errors)) {
+                FileHelper.Write(errorFileName, errors);
+            }
+
+            Console.WriteLine("Game over, press any key...");
+        
             Console.ReadKey();
         }
     }
