@@ -41,11 +41,24 @@ External = 1
         }
 
         [Test]
-        public void IsParametrValid() {
-            string parament = "External=1";
+        public void IsParameterValidTest() {
+            string param = "External=1";
             Compiler compiler = new Compiler();
-            Assert.IsTrue(compiler.IsParametrValid(parament));
+            Assert.IsTrue(compiler.IsParameterValid(param));
+            param = "External=";
+            Assert.IsFalse(compiler.IsParameterValid(param));
+            param = "=1";
+            Assert.IsFalse(compiler.IsParameterValid(param));
 
+        }
+
+        [Test]
+        public void IsPathValidText() {
+            string path = @"""\\clusterfs126\users\91776\DB\Accounting3"";";
+            Compiler compiler = new Compiler();
+            Assert.IsTrue(compiler.IsPathValid(path));
+            path = @"""\\clusterfs126\users\91776\DB\Accounting3""";
+            Assert.IsFalse(compiler.IsPathValid(path));
         }
     }
 }
