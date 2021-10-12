@@ -6,7 +6,7 @@ namespace CompilerScloud {
         public Compiler() { }
 
         public string[] GetObjects(string text) {
-            return text.Split("\r\n\r\n");
+            return text.TrimEnd().Split("\r\n\r\n");
         }
 
         public bool IsValid(string theObject) {

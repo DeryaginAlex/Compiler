@@ -6,7 +6,7 @@ namespace CompilerScloud.Tests {
     [TestFixture]
     public class CompilerTests {
         [Test]
-        public void CorrecyParseObjectsTest() {
+        public void CorrectParseObjectsTest() {
             string text = @"[KTA_NDS]
 Connect=File=""\\clusterfs126\users\91776\DB\Accounting3"";
 ID = e74bf314 - e943 - 4830 - bd93 - befc04aa714e
