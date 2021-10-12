@@ -3,37 +3,33 @@ using System.Collections.Generic;
 
 namespace CompilerScloud {
     public class Compiler {
-        string[,] matrix;
-        public Compiler(string[] lines) {
-            MatrixCreator matrixCreator = new MatrixCreator(lines);
-            matrix = matrixCreator.Creating();
+        public Compiler() { }
+
+        public string[] GetObjects(string text) {
+            return text.Split("\r\n\r\n");
         }
-        public List<int> Validate() {
-            List<int> errors = new List<int>();
 
-            errors.AddRange(HeadCheck(matrix));
-            ConnectCheck(matrix);
-
-
-
-            return errors;
+        public bool IsValid(string theObject) {
+            bool result = true;
+            string[] parametrs = theObject.Split("\r\n");
+            string head = parametrs[0];
+            result = IsHeadValid(head);
+            return result;
         }
-        public List<int> HeadCheck(string[,] matrix) {
-            List<int> result = new List<int>() { };
-            int count = matrix.GetLength(1);
-            for(int i = 0 ; i < count ; i++) {
-                string Heading = matrix[i, 0];
-                string FirstCharacter = Heading.Substring(0, 1);
-                string LastCharacter = Heading.Substring(Heading.Length - 1, 1);
-                char[] Separators = new char[] { '[', ']' };
-                string[] BasicCharacters = Heading.Split(Separators, StringSplitOptions.RemoveEmptyEntries);
 
-                if(FirstCharacter != "[" || LastCharacter != "]" || BasicCharacters[0] == "") {
-                    result.Add(i);
-                    result.Add(0);
-                }
+        public bool IsHeadValid(string head) {
+            bool result = false;
+            string firstCharacter = head.Substring(0, 1);
+            string lastCharacter = head.Substring(head.Length - 1, 1);
+            char[] separators = new char[] { '[', ']' };
+            string[] basicCharacters = head.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+            if(firstCharacter == "[" && lastCharacter == "]") {
+                head = head.Remove(0, 1);
+                head = head.Remove(head.Length - 1, 1);
+               result = !string.IsNullOrWhiteSpace(head);
             }
-
+        
             return result;
         }
 
@@ -48,17 +44,23 @@ namespace CompilerScloud {
                 string ThisIsConnectFile = ParameterConnect.Substring(0, 14);
                 string ThisIsConnectSrvr = ParameterConnect.Substring(0, 19);
                 string LastCharacter = ParameterConnect.Substring(ParameterConnect.Length - 2, 1);
+
+
+                if(ParameterConnect.Length>20) {
+                    if(ThisIsConnectSrvr == "Connect=Srvr=\"host\"" && LastCharacter == "\"") {
+                        continue;
+                    }
+                    result.Add(1);
+                    result.Add(i);
+                }
+                if(ParameterConnect.Length>15) {
+                    if(ThisIsConnectFile != "Connect=File=\"" && LastCharacter == "\"") {
+                        continue;
+                    }
+                    result.Add(1);
+                    result.Add(i);
+                }
                 
-                if(ThisIsConnectFile == "Connect=File=\"" && LastCharacter == "\"") {
-                    result.Add(1);
-                    result.Add(i);
-                }
-
-                if(ThisIsConnectSrvr == "Connect=Srvr=\"host\"" && LastCharacter == "\"") {
-                    result.Add(1);
-                    result.Add(i);
-                }
-
             }
             return result;
         }

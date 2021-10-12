@@ -6,34 +6,32 @@ namespace CompilerScloud {
     class Program {
         static void Main(string[] args) {
             string errorFileName = "bad_data.txt";
+            string fileNameFormat = "base_{0}.txt";
+            
             if(args[0] == null) {
                 Console.WriteLine("Путь к файлу не найден. Он должен идти аргументом командной строки.");
             }
             string filePath = Path.GetFullPath(args[0]);
-            string[] lines = File.ReadAllLines(filePath);
-            if(lines == null) {
+            string text = File.ReadAllText(filePath);
+            if(string.IsNullOrEmpty(text)) {
                 Console.WriteLine("Файл пуст");
             }
 
-            Compiler compiler = new Compiler(lines);
-            List<int> errors = compiler.Validate();
+            Compiler compiler = new Compiler();
+            string[] objects = compiler.GetObjects(text);
+            
             StreamWriter errorFile = new StreamWriter(errorFileName); ;
             if(!File.Exists(errorFileName)) {
                 //если нет файла то создаем его
             }
-            foreach(var item in errors) {
-                errorFile.WriteLine(item);
-            }
 
-            MatrixDimensionCalculator length = new MatrixDimensionCalculator();
-            int l = length.GetHeight(lines);
-            string fileNameFormat = "base_{0}.txt";
-            //int length = compiler.GetParts();
-            for(int i = 1 ; i < l ; i++) {
-                string fileName = string.Format(fileNameFormat, i.ToString());
-                //тут сохраняем в файл 
-            }
-
+            for(int i = 0 ; i < objects.Length ; i++) {
+                if(compiler.IsValid(objects[i])) {
+                    string fileName = string.Format(fileNameFormat, i.ToString());
+                } else {
+                        
+                }
+            }                      
             Console.ReadKey();
         }
     }

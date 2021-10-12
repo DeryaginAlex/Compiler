@@ -8,31 +8,21 @@ using System.IO;
 
 namespace CompilerScloud {
     public class MatrixCreator {
-        string[] lines;
-        public MatrixCreator(string[] lines) {
-            this.lines = lines;
+        string text;
+        public MatrixCreator(string text) {
+            this.text = text;
         }
-        public string[,] Creating() {
-            MatrixDimensionCalculator num = new MatrixDimensionCalculator();
-            int Width = num.GetWidth(lines);
-            int Height = num.GetHeight(lines);
-
-            string[,] arr = new string[Width, Height];
-            int j = 0;
-            int i = 0;
-
-            for(int count = 0 ; count < lines.Length ; count++) {
-
-                if(lines[count] == "") {
-                    j = 0;
-                    i++;
-                } else {
-                    arr[i, j] = lines[count];
-                    j++;
-
+        public string[] Creating() {
+            text = text.TrimEnd();
+            string[] result = text.Split("\r\n\r\n");
+            int height = 0;
+            foreach(var item in result) {
+                var length = item.Split("\r\n").Length;
+                if(length > height) {
+                    height = length;
                 }
-            }
-            return arr;
+            }                         
+            return result;
         }
     }
 }
