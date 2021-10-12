@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace CompilerScloud {
     public class Compiler {
@@ -17,12 +18,12 @@ namespace CompilerScloud {
                 return false;
             }
             string head = parametrs[0];
-            result = result & IsHeadValid(head);
+            result &= IsHeadValid(head);
             string connect = parametrs[1];
-            result = result & IsConnectValid(connect);
+            result &= IsConnectValid(connect);
             if(parametrs.Length > 2) {
                 for(int i = 2 ; i < parametrs.Length - 1 ; i++) {
-                    result = result & IsParameterValid(parametrs[i]);
+                    result &= IsPairValid(parametrs[i]);
                 }
             }
             return result;
@@ -58,28 +59,39 @@ namespace CompilerScloud {
         public bool IsPathValid(string text) {
             bool result = true;
             try {
-                string path = AddressNormalization(text);
+                string path = GetPath(text);
+                FileInfo info = new FileInfo(path);
+                //path.IndexOfAny(Path.GetInvalidPathChars()) == -1;
             } catch {
-                return false;                
+                return false;
             }
             return result;
+        }
+
+        public string GetPath(string text) {
+            string firstCharacter = text.Substring(0, 1);
+            string lastCharacter = text.Substring(text.Length - 2, 2);
+            if(!(firstCharacter == @"""" && lastCharacter == @""";")) {
+                throw new Exception();
+            }
+            text = text.Remove(0, 1);
+            text = text.Remove(text.Length - 2, 2);
+            return text;
         }
 
         public bool IsServerValid(string text) {
             bool result = true;
-            return result;
-        }
-
-        public string AddressNormalization(string address) {
-            string result = "";
-            string firstCharacter = address.Substring(0, 1);
-            string lastCharacter = address.Substring(address.Length - 2, 2);                 
-            if(!(firstCharacter == @"""" && lastCharacter == @""";")) {
-                throw new Exception();
+            string[] items = text.Split(";");
+            if(items.Length != 2) {
+                return false;
+            }
+            if(!IsPairValid(items[0]) || !IsPairValid(items[1])) {
+                return false;
             }
             return result;
         }
-        public bool IsParameterValid(string theObject) {
+
+        public bool IsPairValid(string theObject) {
             bool result = false;
             string[] tmp = theObject.Split("=");
             if(tmp.Length == 2 && !string.IsNullOrEmpty(tmp[0]) && !string.IsNullOrEmpty(tmp[1])) {

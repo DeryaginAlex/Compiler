@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace CompilerScloud.Tests {
     [TestFixture]
@@ -44,21 +45,31 @@ External = 1
         public void IsParameterValidTest() {
             string param = "External=1";
             Compiler compiler = new Compiler();
-            Assert.IsTrue(compiler.IsParameterValid(param));
+            Assert.IsTrue(compiler.IsPairValid(param));
             param = "External=";
-            Assert.IsFalse(compiler.IsParameterValid(param));
+            Assert.IsFalse(compiler.IsPairValid(param));
             param = "=1";
-            Assert.IsFalse(compiler.IsParameterValid(param));
+            Assert.IsFalse(compiler.IsPairValid(param));
 
         }
-
         [Test]
-        public void IsPathValidText() {
-            string path = @"""\\clusterfs126\users\91776\DB\Accounting3"";";
+        public void IsServerValidTest() {             
+            Compiler compiler = new Compiler();               
+            string path = @"Srvr=""host371: 1741"";Ref=""432345_base01:""";
+            Assert.IsTrue(compiler.IsServerValid(path));            
+            path = @"=""host371: 1741"";Ref=""432345_base01:""";
+            Assert.IsFalse(compiler.IsServerValid(path));
+            path = @"Srvr=""host371: 1741"";=""432345_base01:""";
+            Assert.IsFalse(compiler.IsServerValid(path));                
+        }
+
+        [TestCase("", false)]
+        [TestCase(" ", false)]
+        [TestCase(@"""s:\usersdata\643343\МХТ"";", true)]
+        [TestCase(@"""\\clusterfs126\users\91776\DB\Accounting3"";", true)]
+        public void IsPathValidTest(string path, bool expectedValue) {
             Compiler compiler = new Compiler();
-            Assert.IsTrue(compiler.IsPathValid(path));
-            path = @"""\\clusterfs126\users\91776\DB\Accounting3""";
-            Assert.IsFalse(compiler.IsPathValid(path));
+            Assert.AreEqual(expectedValue, compiler.IsPathValid(path));
         }
     }
 }
