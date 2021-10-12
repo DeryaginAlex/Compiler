@@ -27,7 +27,7 @@ namespace CompilerScloud {
                     errors = errors + objects[i] + "\r\n\r\n";
                 }
             }
-            if(!string.IsNullOrWhiteSpace(errors)) {
+            if(!string.IsNullOrEmpty(errors)) {
                 FileHelper.Write(errorFileName, errors);
             }
 
